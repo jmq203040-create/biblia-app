@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Biblia RVR1960</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4a7043">
+</head>
+<body>
+    <header>
+        <h1>📖 Mi Biblia</h1>
+        <p>Reina Valera 1960</p>
+        
+        <div class="header-botones">
+            <button id="btnModoOscuro">🌙</button>
+            <button id="btnMarcadores">⭐ Marcadores</button>
+            <button id="btnNotas">📝 Notas</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="controles">
+            <select id="libroSelect"></select>
+            <select id="capituloSelect"></select>
+            
+            <div class="botones-navegacion">
+                <button id="btnAnterior">◀ Anterior</button>
+                <button id="btnSiguiente">Siguiente ▶</button>
+            </div>
+        </div>
+
+        <div class="busqueda">
+            <input type="text" id="busquedaInput" placeholder="Buscar palabra o frase...">
+            <button id="btnBuscar">🔍 Buscar</button>
+        </div>
+
+        <div id="textoBiblia" class="biblia-texto"></div>
+    </main>
+
+    <!-- Modal de Marcadores -->
+    <div id="modalMarcadores" class="modal">
+        <div class="modal-content">
+            <h2>⭐ Mis Marcadores</h2>
+            <div id="listaMarcadores"></div>
+            <button id="cerrarModal">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Modal de Notas -->
+    <div id="modalNotas" class="modal">
+        <div class="modal-content">
+            <h2>📝 Mis Notas Personales</h2>
+            <div id="listaNotas"></div>
+            <button id="cerrarNotas">Cerrar</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
