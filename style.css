@@ -130,3 +130,80 @@ body.dark textarea {
     background: #1e1e1e;
     color: #e0e0e0;
 }
+/* Modo Oscuro */
+body.dark {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+body.dark .biblia-texto {
+    background: #1e1e1e;
+}
+body.dark .versiculo {
+    border-bottom: 1px solid #333;
+}
+
+/* Mejora visual versículos */
+.versiculo {
+    margin-bottom: 20px;
+    padding: 8px 0;
+    display: flex;
+    gap: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+body.dark .versiculo {
+    border-bottom: 1px solid #333;
+}
+
+.numero-versiculo {
+    color: #4a7043;
+    font-weight: bold;
+    min-width: 40px;
+}
+
+body.dark .numero-versiculo {
+    color: #90d37f;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    z-index: 1000;
+}
+.modal-content {
+    background: white;
+    margin: 10% auto;
+    padding: 25px;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 12px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+body.dark .modal-content {
+    background: #1e1e1e;
+    color: #e0e0e0;
+}
+/* Control de tamaño de fuente */
+#btnFuenteMas, #btnFuenteMenos {
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 8px 12px;
+    min-width: 44px;
+}
+
+.biblia-texto {
+    font-size: 1.18rem; /* Tamaño inicial */
+    transition: font-size 0.3s;
+}
+
+/* En móvil se ve mejor un poco más grande */
+@media (max-width: 600px) {
+    .biblia-texto {
+        font-size: 1.25rem;
+    }
+}
