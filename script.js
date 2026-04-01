@@ -2,8 +2,6 @@ let biblia = null;
 let libroActual = null;
 let capituloActual = null;
 let modoOscuro = false;
-let marcadores = JSON.parse(localStorage.getItem('marcadores')) || [];
-let notas = JSON.parse(localStorage.getItem('notas')) || [];
 let tamanoFuente = 18;
 
 // ==================== INICIAR APP ====================
@@ -35,6 +33,7 @@ document.getElementById('libroSelect').addEventListener('change', function() {
     const index = parseInt(this.value);
     if (isNaN(index)) return;
     libroActual = index;
+    
     const nombreLibro = Object.keys(biblia)[index];
     const libro = biblia[nombreLibro];
     
@@ -73,50 +72,74 @@ function cargarCapitulo(libroIndex, capituloNum) {
     
     Object.keys(capituloData).forEach(numVers => {
         if (!isNaN(parseInt(numVers))) {
-            const texto = capituloData[numVers];
             html += `
-                <div class="versiculo" data-libro="${libroIndex}" data-cap="${capituloNum}" data-vers="${numVers}">
+                <div class="versiculo">
                     <span class="numero-versiculo">${numVers}</span>
-                    <span class="texto-versiculo">${texto}</span>
-                    <button class="btn-marcar" style="margin-left:auto; font-size:1.5rem;">⭐</button>
-                    <button class="btn-nota" style="font-size:1.4rem;">📝</button>
+                    <span class="texto-versiculo">${capituloData[numVers]}</span>
                 </div>`;
         }
     });
     
     document.getElementById('textoBiblia').innerHTML = html;
     actualizarTamanoFuente();
-    
-    document.querySelectorAll('.btn-marcar').forEach(btn => btn.addEventListener('click', guardarMarcador));
-    document.querySelectorAll('.btn-nota').forEach(btn => btn.addEventListener('click', abrirNota));
 }
 
-// ==================== BÚSQUEDA MEJORADA ====================
-document.getElementById('btnBuscar').addEventListener('click', realizarBusqueda);
-document.getElementById('busquedaInput').addEventListener('keypress', e => {
-    if (e.key === 'Enter') realizarBusqueda();
+// ==================== ANTERIOR Y SIGUIENTE ====================
+document.getElementById('btnAnterior').addEventListener('click', () => {
+    if (capituloActual > 1) cargarCapitulo(libroActual, capituloActual - 1);
 });
 
-function realizarBusqueda() {
-    const termino = document.getElementById('busquedaInput').value.trim().toLowerCase();
-    if (!termino) {
-        alert("Por favor escribe una palabra o frase");
-        return;
+document.getElementById('btnSiguiente').addEventListener('click', () => {
+    const nombreLibro = Object.keys(biblia)[libroActual];
+    const libro = biblia[nombreLibro];
+    const totalCaps = Object.keys(libro).filter(k => !isNaN(parseInt(k))).length;
+    
+    if (capituloActual < totalCaps) {
+        cargarCapitulo(libroActual, capituloActual + 1);
     }
-    
+});
+
+// ==================== TAMAÑO DE FUENTE ====================
+function actualizarTamanoFuente() {
+    const contenedor = document.getElementById('textoBiblia');
+    if (contenedor) contenedor.style.fontSize = tamanoFuente + 'px';
+}
+
+document.getElementById('btnFuenteMas').addEventListener('click', () => {
+    tamanoFuente = Math.min(tamanoFuente + 3, 32);
+    actualizarTamanoFuente();
+});
+
+document.getElementById('btnFuenteMenos').addEventListener('click', () => {
+    tamanoFuente = Math.max(tamanoFuente - 3, 13);
+    actualizarTamanoFuente();
+});
+
+// ==================== MODO OSCURO ====================
+document.getElementById('btnModoOscuro').addEventListener('click', () => {
+    modoOscuro = !modoOscuro;
+    document.body.classList.toggle('dark', modoOscuro);
+    document.getElementById('btnModoOscuro').textContent = modoOscuro ? '☀️' : '🌙';
+});
+
+// ==================== BÚSQUEDA ====================
+document.getElementById('btnBuscarFull').addEventListener('click', () => {
+    const termino = prompt("🔍 Buscar en toda la Biblia:\n\nEscribe una palabra o frase:");
+    if (!termino || termino.trim() === "") return;
+
+    const busqueda = termino.toLowerCase().trim();
     let resultados = [];
-    
+
     Object.keys(biblia).forEach((nombreLibro, libroIndex) => {
         const libro = biblia[nombreLibro];
         Object.keys(libro).forEach(capNum => {
             if (isNaN(parseInt(capNum))) return;
             const capitulo = libro[capNum];
             Object.keys(capitulo).forEach(versNum => {
-                const texto = capitulo[versNum].toLowerCase();
-                if (texto.includes(termino)) {
+                if (capitulo[versNum].toLowerCase().includes(busqueda)) {
                     resultados.push({
-                        libroIndex: libroIndex,
                         libroNombre: nombreLibro,
+                        libroIndex: libroIndex,
                         capitulo: capNum,
                         versiculo: versNum,
                         texto: capitulo[versNum]
@@ -125,47 +148,37 @@ function realizarBusqueda() {
             });
         });
     });
-    
+
     if (resultados.length === 0) {
         alert(`No se encontraron resultados para "${termino}"`);
         return;
     }
-    
-    let html = `<h2 style="text-align:center; margin:20px 0;">Resultados para: "${termino}" (${resultados.length})</h2>`;
+
+    let html = `<h2 style="text-align:center;">Resultados para: "${termino}" (${resultados.length})</h2>`;
     
     resultados.forEach(res => {
         html += `
             <div class="versiculo" style="cursor:pointer; padding:12px; border-left:5px solid #4a7043;" 
-                 onclick="cargarCapitulo(${res.libroIndex}, ${res.capitulo})">
+                 onclick="cargarCapitulo(${res.libroIndex}, ${res.capitulo}); document.getElementById('menuAcciones').style.display='none';">
                 <strong>${res.libroNombre} ${res.capitulo}:${res.versiculo}</strong><br>
                 ${res.texto}
             </div>`;
     });
-    
+
     document.getElementById('textoBiblia').innerHTML = html;
-}
-
-// ==================== OTRAS FUNCIONES (Marcadores, Notas, Fuente, etc.) ====================
-function guardarMarcador(e) { /* ... */ }
-function abrirNota(e) { /* ... */ }
-function actualizarTamanoFuente() { /* ... */ }
-
-// Botones Anterior / Siguiente
-document.getElementById('btnAnterior').addEventListener('click', () => {
-    if (capituloActual > 1) cargarCapitulo(libroActual, capituloActual - 1);
 });
 
-document.getElementById('btnSiguiente').addEventListener('click', () => {
-    const nombreLibro = Object.keys(biblia)[libroActual];
-    const totalCaps = Object.keys(biblia[nombreLibro]).filter(k => !isNaN(parseInt(k))).length;
-    if (capituloActual < totalCaps) cargarCapitulo(libroActual, capituloActual + 1);
+// ==================== MENÚ ====================
+const btnMenu = document.getElementById('btnMenu');
+const menuAcciones = document.getElementById('menuAcciones');
+
+btnMenu.addEventListener('click', (e) => {
+    e.stopPropagation();
+    menuAcciones.style.display = menuAcciones.style.display === 'block' ? 'none' : 'block';
 });
 
-// Modo Oscuro
-document.getElementById('btnModoOscuro').addEventListener('click', () => {
-    modoOscuro = !modoOscuro;
-    document.body.classList.toggle('dark', modoOscuro);
-    document.getElementById('btnModoOscuro').textContent = modoOscuro ? '☀️' : '🌙';
+document.addEventListener('click', () => {
+    menuAcciones.style.display = 'none';
 });
 
 // Iniciar
