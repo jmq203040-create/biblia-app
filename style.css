@@ -1,140 +1,133 @@
-let biblia = null;
-let libroActual = null;
-let capituloActual = null;
-let modoOscuro = false;
-let tamanoFuente = 18;
-
-// ==================== INICIAR APP ====================
-async function iniciarApp() {
-    try {
-        const resp = await fetch('biblia.json?' + Date.now());
-        biblia = await resp.json();
-        llenarLibros();
-    } catch (e) {
-        console.error("Error cargando biblia:", e);
-        document.getElementById('textoBiblia').innerHTML = "<p style='color:red; text-align:center; padding:50px;'>Error al cargar la Biblia</p>";
-    }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-// ==================== LLENAR LIBROS ====================
-function llenarLibros() {
-    const select = document.getElementById('libroSelect');
-    select.innerHTML = '<option value="">-- Libro --</option>';
-    
-    Object.keys(biblia).forEach((nombre, index) => {
-        const opt = document.createElement('option');
-        opt.value = index;
-        opt.textContent = nombre;
-        select.appendChild(opt);
-    });
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background-color: #f8f5f0;
+    color: #333;
+    line-height: 1.7;
+    padding: 8px;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-// ==================== CAMBIO DE LIBRO ====================
-document.getElementById('libroSelect').addEventListener('change', function() {
-    const index = parseInt(this.value);
-    if (isNaN(index)) return;
-    libroActual = index;
-    
-    const nombreLibro = Object.keys(biblia)[index];
-    const libro = biblia[nombreLibro];
-    
-    const selectCap = document.getElementById('capituloSelect');
-    selectCap.innerHTML = '<option value="">-- Cap --</option>';
-    
-    Object.keys(libro).forEach(cap => {
-        if (!isNaN(parseInt(cap))) {
-            const opt = document.createElement('option');
-            opt.value = cap;
-            opt.textContent = cap;
-            selectCap.appendChild(opt);
-        }
-    });
-    
-    cargarCapitulo(index, 1);
-});
-
-// ==================== CAMBIO DE CAPÍTULO ====================
-document.getElementById('capituloSelect').addEventListener('change', function() {
-    const capituloNum = parseInt(this.value);
-    if (isNaN(capituloNum) || libroActual === null) return;
-    cargarCapitulo(libroActual, capituloNum);
-});
-
-// ==================== CARGAR CAPÍTULO ====================
-function cargarCapitulo(libroIndex, capituloNum) {
-    libroActual = libroIndex;
-    capituloActual = capituloNum;
-    
-    const nombreLibro = Object.keys(biblia)[libroIndex];
-    const libro = biblia[nombreLibro];
-    const capituloData = libro[capituloNum.toString()];
-    
-    let html = `<h2 style="text-align:center; margin:20px 0; color:#2e4a2b;">${nombreLibro} ${capituloNum}</h2>`;
-    
-    Object.keys(capituloData).forEach(numVers => {
-        if (!isNaN(parseInt(numVers))) {
-            html += `
-                <div class="versiculo">
-                    <span class="numero-versiculo">${numVers}</span>
-                    <span class="texto-versiculo">${capituloData[numVers]}</span>
-                </div>`;
-        }
-    });
-    
-    document.getElementById('textoBiblia').innerHTML = html;
-    actualizarTamanoFuente();
+/* Header ultra compacto */
+header {
+    background: linear-gradient(135deg, #4a7043, #2e4a2b);
+    color: white;
+    padding: 10px 8px;
+    border-radius: 10px;
+    margin-bottom: 10px;
 }
 
-// ==================== ANTERIOR Y SIGUIENTE ====================
-document.getElementById('btnAnterior').addEventListener('click', () => {
-    if (capituloActual > 1) cargarCapitulo(libroActual, capituloActual - 1);
-});
-
-document.getElementById('btnSiguiente').addEventListener('click', () => {
-    const nombreLibro = Object.keys(biblia)[libroActual];
-    const libro = biblia[nombreLibro];
-    const totalCaps = Object.keys(libro).filter(k => !isNaN(parseInt(k))).length;
-    
-    if (capituloActual < totalCaps) {
-        cargarCapitulo(libroActual, capituloActual + 1);
-    }
-});
-
-// ==================== TAMAÑO DE FUENTE ====================
-function actualizarTamanoFuente() {
-    const contenedor = document.getElementById('textoBiblia');
-    if (contenedor) contenedor.style.fontSize = tamanoFuente + 'px';
+.header-main h1 {
+    font-size: 1.55rem;
+    margin: 0 0 8px 0;
+    text-align: center;
 }
 
-document.getElementById('btnFuenteMas').addEventListener('click', () => {
-    tamanoFuente = Math.min(tamanoFuente + 3, 32);
-    actualizarTamanoFuente();
-});
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    align-items: center;
+}
 
-document.getElementById('btnFuenteMenos').addEventListener('click', () => {
-    tamanoFuente = Math.max(tamanoFuente - 3, 13);
-    actualizarTamanoFuente();
-});
+.compact-select {
+    flex: 1;
+    padding: 8px 10px;
+    font-size: 0.98rem;
+    border: 2px solid #4a7043;
+    border-radius: 8px;
+    background: white;
+    min-width: 100px;
+}
 
-// ==================== MODO OSCURO ====================
-document.getElementById('btnModoOscuro').addEventListener('click', () => {
-    modoOscuro = !modoOscuro;
-    document.body.classList.toggle('dark', modoOscuro);
-    document.getElementById('btnModoOscuro').textContent = modoOscuro ? '☀️' : '🌙';
-});
+.nav-btn, .menu-btn {
+    padding: 8px 12px;
+    font-size: 1.05rem;
+    border: none;
+    border-radius: 8px;
+    background: #4a7043;
+    color: white;
+    cursor: pointer;
+}
 
-// ==================== MENÚ ====================
-const btnMenu = document.getElementById('btnMenu');
-const menuAcciones = document.getElementById('menuAcciones');
+.menu-btn {
+    background: rgba(255,255,255,0.25);
+    font-size: 1.35rem;
+}
 
-btnMenu.addEventListener('click', (e) => {
-    e.stopPropagation();
-    menuAcciones.style.display = menuAcciones.style.display === 'block' ? 'none' : 'block';
-});
+/* Biblia */
+.biblia-texto {
+    background: white;
+    padding: 20px 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    min-height: 72vh;
+    font-size: 1.18rem;
+}
 
-document.addEventListener('click', () => {
-    menuAcciones.style.display = 'none';
-});
+/* Versículos */
+.versiculo {
+    margin-bottom: 20px;
+    padding: 8px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    border-bottom: 1px solid #eee;
+}
 
-// Iniciar
-iniciarApp();
+.numero-versiculo {
+    color: #4a7043;
+    font-weight: bold;
+    min-width: 34px;
+    font-size: 1.15rem;
+}
+
+/* Menú */
+.menu-desplegable {
+    display: none;
+    position: absolute;
+    top: 68px;
+    right: 10px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    padding: 8px;
+    z-index: 1000;
+    min-width: 200px;
+}
+
+.menu-desplegable button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 13px 16px;
+    margin: 3px 0;
+    border: none;
+    background: #f8f5f0;
+    font-size: 1.05rem;
+    border-radius: 8px;
+    color: #222;
+}
+
+/* Modo Oscuro */
+body.dark {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+body.dark .biblia-texto { background: #1e1e1e; }
+body.dark .menu-desplegable { background: #1e1e1e; }
+body.dark .menu-desplegable button { background: #2d2d2d; color: #e0e0e0; }
+
+/* Responsive */
+@media (max-width: 600px) {
+    .header-main h1 { font-size: 1.45rem; }
+    .toolbar { gap: 4px; }
+    .compact-select { padding: 7px 8px; font-size: 0.95rem; }
+    .biblia-texto { padding: 16px 12px; font-size: 1.2rem; }
+}
