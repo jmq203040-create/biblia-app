@@ -9,153 +9,125 @@ body {
     background-color: #f8f5f0;
     color: #333;
     line-height: 1.7;
-    padding: 10px;
+    padding: 8px;
     max-width: 800px;
     margin: 0 auto;
-    transition: background-color 0.4s, color 0.4s;
 }
 
-/* ==================== HEADER ==================== */
+/* Header ultra compacto */
 header {
-    text-align: center;
-    padding: 20px 15px;
     background: linear-gradient(135deg, #4a7043, #2e4a2b);
     color: white;
-    border-radius: 12px;
-    margin-bottom: 20px;
-    position: relative;
+    padding: 10px 8px;
+    border-radius: 10px;
+    margin-bottom: 10px;
 }
 
-header h1 {
-    font-size: 2rem;
+.header-main h1 {
+    font-size: 1.55rem;
+    margin: 0 0 8px 0;
+    text-align: center;
 }
 
-.menu-btn {
-    position: absolute;
-    top: 18px;
-    right: 15px;
-    background: none;
-    border: none;
-    font-size: 2.2rem;
-    color: white;
-    cursor: pointer;
-}
-
-/* ==================== CONTROLES ==================== */
-.controles, .busqueda {
+.toolbar {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 15px;
-    justify-content: center;
+    gap: 5px;
+    align-items: center;
 }
 
-select, button {
-    padding: 12px 16px;
-    font-size: 1.05rem;
+.compact-select {
+    flex: 1;
+    padding: 8px 10px;
+    font-size: 0.98rem;
     border: 2px solid #4a7043;
     border-radius: 8px;
+    background: white;
+    min-width: 100px;
 }
 
-button {
+.nav-btn, .menu-btn {
+    padding: 8px 12px;
+    font-size: 1.05rem;
+    border: none;
+    border-radius: 8px;
     background: #4a7043;
     color: white;
     cursor: pointer;
-    font-weight: bold;
 }
 
-/* ==================== TEXTO BIBLIA ==================== */
+.menu-btn {
+    background: rgba(255,255,255,0.25);
+    font-size: 1.35rem;
+}
+
+/* Biblia */
 .biblia-texto {
     background: white;
-    padding: 25px;
+    padding: 20px 15px;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    min-height: 65vh;
+    min-height: 72vh;
     font-size: 1.18rem;
-    transition: font-size 0.3s;
 }
 
 /* Versículos */
 .versiculo {
-    margin-bottom: 22px;
-    padding: 10px 0;
+    margin-bottom: 20px;
+    padding: 8px 0;
     display: flex;
     align-items: flex-start;
-    gap: 12px;
+    gap: 10px;
     border-bottom: 1px solid #eee;
 }
 
 .numero-versiculo {
     color: #4a7043;
     font-weight: bold;
-    min-width: 38px;
-    font-size: 1.25rem;
+    min-width: 34px;
+    font-size: 1.15rem;
 }
 
-.texto-versiculo {
-    flex: 1;
-    line-height: 1.65;
-}
-
-/* Botones de versículo */
-.btn-marcar, .btn-nota {
-    background: none;
-    border: none;
-    font-size: 1.55rem;
-    padding: 4px 8px;
-    cursor: pointer;
-    opacity: 0.8;
-}
-
-/* ==================== MENÚ DESPLEGABLE ==================== */
+/* Menú */
 .menu-desplegable {
     display: none;
     position: absolute;
-    top: 75px;
-    right: 15px;
+    top: 68px;
+    right: 10px;
     background: white;
     border-radius: 12px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-    padding: 10px;
+    padding: 8px;
     z-index: 1000;
-    min-width: 230px;
+    min-width: 200px;
 }
 
 .menu-desplegable button {
     display: block;
     width: 100%;
     text-align: left;
-    padding: 14px 18px;
-    margin: 4px 0;
+    padding: 13px 16px;
+    margin: 3px 0;
     border: none;
     background: #f8f5f0;
     font-size: 1.05rem;
     border-radius: 8px;
-    color: #333;
+    color: #222;
 }
 
-/* ==================== MODO OSCURO (CORREGIDO) ==================== */
+/* Modo Oscuro */
 body.dark {
     background-color: #121212;
     color: #e0e0e0;
 }
-body.dark .biblia-texto { 
-    background: #1e1e1e; 
-}
-body.dark .menu-desplegable { 
-    background: #1e1e1e; 
-}
-body.dark .menu-desplegable button { 
-    background: #2d2d2d !important; 
-    color: #e0e0e0 !important; 
-}
-body.dark .versiculo { 
-    border-bottom: 1px solid #444; 
-}
+body.dark .biblia-texto { background: #1e1e1e; }
+body.dark .menu-desplegable { background: #1e1e1e; }
+body.dark .menu-desplegable button { background: #2d2d2d; color: #e0e0e0; }
 
-/* ==================== RESPONSIVE ==================== */
+/* Responsive */
 @media (max-width: 600px) {
-    .biblia-texto { padding: 18px 15px; font-size: 1.22rem; }
-    .versiculo { margin-bottom: 18px; gap: 10px; }
-    .menu-desplegable { top: 70px; right: 10px; min-width: 200px; }
+    .header-main h1 { font-size: 1.45rem; }
+    .toolbar { gap: 4px; }
+    .compact-select { padding: 7px 8px; font-size: 0.95rem; }
+    .biblia-texto { padding: 16px 12px; font-size: 1.2rem; }
 }
