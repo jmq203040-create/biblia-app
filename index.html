@@ -3,39 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Biblia RVR1960</title>
+    <title>Mi Biblia</title>
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#4a7043">
 </head>
 <body>
     <header>
-        <h1>📖 Mi Biblia</h1>
-        <p>Reina Valera 1960</p>
-        <button id="btnMenu" class="menu-btn">☰</button>
+        <div class="header-main">
+            <h1>Mi Biblia</h1>
+            
+            <div class="toolbar">
+                <select id="libroSelect" class="compact-select"></select>
+                <select id="capituloSelect" class="compact-select"></select>
+                <button id="btnAnterior" class="nav-btn">◀</button>
+                <button id="btnSiguiente" class="nav-btn">▶</button>
+                <button id="btnMenu" class="menu-btn">☰</button>
+            </div>
+        </div>
     </header>
 
     <!-- Menú Desplegable -->
     <div id="menuAcciones" class="menu-desplegable">
-        <button id="btnBuscarFull">🔍 Búsqueda</button>
         <button id="btnModoOscuro">🌙 Modo Oscuro</button>
         <button id="btnFuenteMenos">A- Disminuir letra</button>
         <button id="btnFuenteMas">A+ Aumentar letra</button>
         <button id="btnMarcadores">⭐ Marcadores</button>
         <button id="btnNotas">📝 Mis Notas</button>
-        <button id="btnResaltar">🎨 Resaltar Versículo</button>
     </div>
 
     <main>
-        <div class="controles">
-            <select id="libroSelect"></select>
-            <select id="capituloSelect"></select>
-            <div class="botones-navegacion">
-                <button id="btnAnterior">◀ Anterior</button>
-                <button id="btnSiguiente">Siguiente ▶</button>
-            </div>
-        </div>
-
         <div id="textoBiblia" class="biblia-texto"></div>
     </main>
 
