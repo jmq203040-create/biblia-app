@@ -11,14 +11,15 @@ async function iniciarApp() {
         biblia = await resp.json();
         llenarLibros();
     } catch (e) {
-        console.error(e);
+        console.error("Error cargando biblia:", e);
+        document.getElementById('textoBiblia').innerHTML = "<p style='color:red; text-align:center; padding:50px;'>Error al cargar la Biblia</p>";
     }
 }
 
-// ==================== LIBROS ====================
+// ==================== LLENAR LIBROS ====================
 function llenarLibros() {
     const select = document.getElementById('libroSelect');
-    select.innerHTML = '<option value="">-- Selecciona un libro --</option>';
+    select.innerHTML = '<option value="">-- Libro --</option>';
     
     Object.keys(biblia).forEach((nombre, index) => {
         const opt = document.createElement('option');
@@ -38,13 +39,13 @@ document.getElementById('libroSelect').addEventListener('change', function() {
     const libro = biblia[nombreLibro];
     
     const selectCap = document.getElementById('capituloSelect');
-    selectCap.innerHTML = '<option value="">-- Capítulo --</option>';
+    selectCap.innerHTML = '<option value="">-- Cap --</option>';
     
     Object.keys(libro).forEach(cap => {
         if (!isNaN(parseInt(cap))) {
             const opt = document.createElement('option');
             opt.value = cap;
-            opt.textContent = `Capítulo ${cap}`;
+            opt.textContent = cap;
             selectCap.appendChild(opt);
         }
     });
@@ -68,7 +69,7 @@ function cargarCapitulo(libroIndex, capituloNum) {
     const libro = biblia[nombreLibro];
     const capituloData = libro[capituloNum.toString()];
     
-    let html = `<h2 style="text-align:center; margin:25px 0; color:#2e4a2b;">${nombreLibro} ${capituloNum}</h2>`;
+    let html = `<h2 style="text-align:center; margin:20px 0; color:#2e4a2b;">${nombreLibro} ${capituloNum}</h2>`;
     
     Object.keys(capituloData).forEach(numVers => {
         if (!isNaN(parseInt(numVers))) {
@@ -120,52 +121,6 @@ document.getElementById('btnModoOscuro').addEventListener('click', () => {
     modoOscuro = !modoOscuro;
     document.body.classList.toggle('dark', modoOscuro);
     document.getElementById('btnModoOscuro').textContent = modoOscuro ? '☀️' : '🌙';
-});
-
-// ==================== BÚSQUEDA ====================
-document.getElementById('btnBuscarFull').addEventListener('click', () => {
-    const termino = prompt("🔍 Buscar en toda la Biblia:\n\nEscribe una palabra o frase:");
-    if (!termino || termino.trim() === "") return;
-
-    const busqueda = termino.toLowerCase().trim();
-    let resultados = [];
-
-    Object.keys(biblia).forEach((nombreLibro, libroIndex) => {
-        const libro = biblia[nombreLibro];
-        Object.keys(libro).forEach(capNum => {
-            if (isNaN(parseInt(capNum))) return;
-            const capitulo = libro[capNum];
-            Object.keys(capitulo).forEach(versNum => {
-                if (capitulo[versNum].toLowerCase().includes(busqueda)) {
-                    resultados.push({
-                        libroNombre: nombreLibro,
-                        libroIndex: libroIndex,
-                        capitulo: capNum,
-                        versiculo: versNum,
-                        texto: capitulo[versNum]
-                    });
-                }
-            });
-        });
-    });
-
-    if (resultados.length === 0) {
-        alert(`No se encontraron resultados para "${termino}"`);
-        return;
-    }
-
-    let html = `<h2 style="text-align:center;">Resultados para: "${termino}" (${resultados.length})</h2>`;
-    
-    resultados.forEach(res => {
-        html += `
-            <div class="versiculo" style="cursor:pointer; padding:12px; border-left:5px solid #4a7043;" 
-                 onclick="cargarCapitulo(${res.libroIndex}, ${res.capitulo}); document.getElementById('menuAcciones').style.display='none';">
-                <strong>${res.libroNombre} ${res.capitulo}:${res.versiculo}</strong><br>
-                ${res.texto}
-            </div>`;
-    });
-
-    document.getElementById('textoBiblia').innerHTML = html;
 });
 
 // ==================== MENÚ ====================
