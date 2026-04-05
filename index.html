@@ -25,17 +25,31 @@
 
     <!-- Menú Desplegable -->
     <div id="menuAcciones" class="menu-desplegable">
+        <button id="btnBuscarFull">🔍 Búsqueda</button>
         <button id="btnModoOscuro">🌙 Modo Oscuro</button>
         <button id="btnFuenteMenos">A- Disminuir letra</button>
         <button id="btnFuenteMas">A+ Aumentar letra</button>
-        <button id="btnMarcadores">⭐ Marcadores</button>
-        <button id="btnNotas">📝 Mis Notas</button>
     </div>
 
     <main>
         <div id="textoBiblia" class="biblia-texto"></div>
     </main>
 
-    <script src="script.js"></script>
+   <!-- Cambia la línea del script por esto para asegurar que el hardware esté listo -->
+        <!-- Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('Service Worker registrado con éxito:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('Error al registrar Service Worker:', error);
+                    });
+            });
+        }
+    </script>
+<script src="script.js" defer></script>
 </body>
 </html>
