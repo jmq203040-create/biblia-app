@@ -16,7 +16,7 @@ body {
 
 /* Header ultra compacto */
 header {
-    background: linear-gradient(135deg, #4a7043, #2e4a2b);
+    background: linear-gradient(135deg, #419433, #2e4a2b);
     color: white;
     padding: 10px 8px;
     border-radius: 10px;
@@ -40,7 +40,7 @@ header {
     flex: 1;
     padding: 8px 10px;
     font-size: 0.98rem;
-    border: 2px solid #4a7043;
+    border: 2px solid #1c3a9b;
     border-radius: 8px;
     background: white;
     min-width: 100px;
@@ -51,7 +51,7 @@ header {
     font-size: 1.05rem;
     border: none;
     border-radius: 8px;
-    background: #4a7043;
+    background: #7ad869;
     color: white;
     cursor: pointer;
 }
@@ -82,7 +82,7 @@ header {
 }
 
 .numero-versiculo {
-    color: #4a7043;
+    color: #0c0c0cf8;
     font-weight: bold;
     min-width: 34px;
     font-size: 1.15rem;
@@ -130,4 +130,30 @@ body.dark .menu-desplegable button { background: #2d2d2d; color: #e0e0e0; }
     .toolbar { gap: 4px; }
     .compact-select { padding: 7px 8px; font-size: 0.95rem; }
     .biblia-texto { padding: 16px 12px; font-size: 1.2rem; }
+}/* ==================== RESALTADO DE COLORES ==================== */
+.resaltado-amarillo { background-color: #fff9c4 !important; }
+.resaltado-verde    { background-color: #c8e6c9 !important; }
+.resaltado-azul     { background-color: #bbdefb !important; }
+.resaltado-rosa     { background-color: #f8bbd0 !important; }
+.resaltado-naranja  { background-color: #ffe0b2 !important; }
+
+body.dark .resaltado-amarillo { background-color: #5a4a00 !important; }
+body.dark .resaltado-verde    { background-color: #1b3d1f !important; }
+body.dark .resaltado-azul     { background-color: #1a2a4a !important; }
+body.dark .resaltado-rosa     { background-color: #4a2a3a !important; }
+
+/* Iconos pequeños al lado del versículo */
+.btn-marcar, .btn-resaltar {
+    background: none;
+    border: none;
+    font-size: 1.35rem;
+    padding: 4px 7px;
+    cursor: pointer;
+    opacity: 0.75;
+    margin-left: 8px;
+}
+
+.btn-marcar:hover, .btn-resaltar:hover {
+    opacity: 1;
+    transform: scale(1.3);
 }
