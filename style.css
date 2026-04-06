@@ -16,7 +16,7 @@ body {
 
 /* Header ultra compacto */
 header {
-    background: linear-gradient(135deg, #419433, #2e4a2b);
+    background: linear-gradient(135deg, #1427d6, rgb(12, 41, 136));
     color: white;
     padding: 10px 8px;
     border-radius: 10px;
@@ -38,12 +38,12 @@ header {
 
 .compact-select {
     flex: 1;
-    padding: 8px 10px;
-    font-size: 0.98rem;
+    padding: 4px 6px;
+    font-size: 0.85rem;
     border: 2px solid #1c3a9b;
-    border-radius: 8px;
+    border-radius: 6px;
     background: white;
-    min-width: 100px;
+    min-width: 5px;
 }
 
 .nav-btn, .menu-btn {
@@ -51,7 +51,7 @@ header {
     font-size: 1.05rem;
     border: none;
     border-radius: 8px;
-    background: #7ad869;
+    background: rgb(21, 170, 163);
     color: white;
     cursor: pointer;
 }
@@ -63,7 +63,7 @@ header {
 
 /* Biblia */
 .biblia-texto {
-    background: white;
+    background:#97cedb57;
     padding: 20px 15px;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
