@@ -111,7 +111,6 @@ function cargarCapitulo(libroIndex, capituloNum) {
     <div class="versiculo" data-libro="${libroIndex}" data-cap="${capituloNum}" data-vers="${numVers}">
         <span class="numero-versiculo">${numVers}</span>
         <span class="texto-versiculo">${capituloData[numVers]}</span>
-        <button class="btn-marcar" style="font-size:1.35rem;">⭐</button>
         <button class="btn-resaltar" style="font-size:1.25rem;">🎨</button>
     </div>`;
         }
